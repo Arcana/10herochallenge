@@ -19,6 +19,7 @@
 
 <main>
     {% for category, message in get_flashed_messages(with_categories=true) %}
+        <!-- TODO -->
         <div class="flash alert {{ "alert-" + category if category != "message" else "warning" }}">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ message }}
