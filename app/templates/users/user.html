@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% include "users/user_nav.html" %}
+
+    <dl>
+        <dt>First seen</dt>
+        <dd>{{ user.first_seen|datetime_to_datestring }} UTC</dd>
+        <dt>Last seen</dt>
+        <dd>{{ user.last_seen|datetime_to_datestring }} UTC</dd>
+    </dl>
+{% endblock %}

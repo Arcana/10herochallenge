@@ -1,0 +1,90 @@
+{%- macro field_label(field) -%}
+    <label for="{{ field.id }}">{{ field.label.text }}</label>
+{% endmacro %}
+
+
+{%- macro field_description(field) -%}
+    {% if field.description %}
+        <span class="help-block">{{ field.description|safe }}</span>
+    {% endif %}
+{%- endmacro -%}
+
+
+{%- macro field_errors(field) -%}
+    {% if field.errors %}
+        {%- for error in field.errors -%}
+        <span class="help-block">{{error}}</span>
+        {%- endfor -%}
+    {% endif %}
+{%- endmacro -%}
+
+{%- macro horizontal_field(field) -%}
+<div class="form-group row{%- if field.errors %} has-error{%- endif %}">
+
+    {{ field.label(class="col-sm-2 control-label") }}
+    <div class="col-sm-10">
+
+    {%- if field.flags.required -%}
+        {{ field(class='form-control', placeholder=field.label.text, required="required", **kwargs) }}
+    {%- else -%}
+        {{ field(class='form-control', placeholder=field.label.text, **kwargs) }}
+    {%- endif -%}
+
+    {{ field_description(field) }}
+    {{ field_errors(field) }}
+    </div>
+</div>
+{% endmacro %}
+
+{%- macro horizontal_checkbox(field, inline) -%}
+<div class="form-group row{%- if field.errors %} has-error{%- endif %}">
+
+    <div class="col-sm-10 col-sm-offset-2">
+        <label class="checkbox {%- if inline -%}inline{%- endif -%}">
+            {{ field(**kwargs) }}
+            {{ field_label(field) }}
+            {{ field_description(field) }}
+            {{ field_errors(field) }}
+        </label>
+    </div>
+</div>
+{% endmacro %}
+
+
+{%- macro horizontal_submit(label="Submit") -%}
+<div class="form-group row">
+    <div class="col-sm-10 col-sm-offset-2">
+        <button type="submit" class="btn btn-primary">{{ label }}</button>
+    </div>
+</div>
+{% endmacro %}
+
+{%- macro pagination(pagination_obj, endpoint, endpoint_values={}, size="sm") -%}
+    {% if pagination_obj.pages > 1 %}
+        <ul class="pagination pagination-{{ size }}">
+
+            {# Previous button #}
+            {% if pagination_obj.has_prev %}
+                <li><a class="prev" href="{{ url_for(endpoint, page=pagination_obj.prev_num, **endpoint_values) }}">&#9664;</a></li>
+            {% else %}
+                <li class="disabled"><a class="prev">&#9664;</a></li>
+            {% endif %}
+
+            {# Next button #}
+            {% if pagination_obj.has_next %}
+                <li><a class="next" href="{{ url_for(endpoint, page=pagination_obj.next_num, **endpoint_values) }}">&#9654;</a></li>
+            {% else %}
+                <li class="disabled"><a class="next">&#9654;</a></li>
+            {% endif %}
+
+            {# Individual page links #}
+            {% for page in pagination_obj.iter_pages() %}
+                {% if page %}
+                    <li class="{{ "active" if pagination_obj.page == page }}"><a href="{{ url_for(endpoint, page=page, **endpoint_values) }}">{{ page }}</a></li>
+                {% else %}
+                    <li class="disabled"><a>&hellip;</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}

@@ -1,0 +1,14 @@
+<nav>
+    <ul>
+        <li><a href="{{ url_for('users.user', _id=user.id) }}">{{ user.name }}</a></li>
+        <li><a href="http://steamcommunity.com/profiles/{{ user.steam_id }}">Steam account</a></li>
+        <li><a href="http://dotabuff.com/players/{{ user.id }}">Dotabuff</a></li>
+        {% if current_user.id == user.id %}
+            <li><a href="{{ url_for('users.settings', _id=user.id) }}">Settings</a></li>
+            <li><a href="{{ url_for('users.logout') }}">Logout</a></li>
+        {% endif %}
+        {% if current_user.is_admin() %}
+        <li><a href="{{ url_for('users.update_name', _id=user.id) }}">Update name from Steam</a></li>
+        {% endif %}
+    </ul>
+</nav>

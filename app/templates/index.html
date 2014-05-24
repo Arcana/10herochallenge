@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>Hello world</h1>
+
+    {% if current_user.is_authenticated %}
+        <h2>Your heroes</h2>
+        <ul>
+            <li>TODO</li>
+        </ul>
+    {% else %}
+        <a href="{{ url_for('users/login') }}">Sign in with Steam</a>
+    {% endif %}
+{% endblock %}

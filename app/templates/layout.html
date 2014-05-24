@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ title or "10 Hero Challenge" }}</title>
+    <meta name="description" content="{{ meta_description or "Earn imaginary internet points for winning the video games." }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    {%- block style %}
+    {%- endblock style %}
+</head>
+
+<body>
+    {% include "site_nav.html" %}
+
+    <main>
+        {% for category, message in get_flashed_messages(with_categories=true) %}
+            <div class="flash alert {{ "alert-" + category if category != "message" else "warning"}}">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% block content %}
+        {% endblock %}
+        <div id="ad_large_bottom" class="text-center">
+            {% if current_user.allows_ads() %}
+            <hr>
+            <div>Wow, an advertisement!</div>
+            {% endif %}
+        </div>
+    </main>
+    <hr>
+    <footer>
+
+        <ul class="list-inline pull-left">
+            <li>© <a href="http://arcana.io">Arcana.io</a></li>
+            <li>Powered by <a href="http://steampowered.com">Steam</a>.</li>
+            <li>"Dota" is a registered trademark of <a href="http://valvesoftware.com">Valve Corporation</a>.  Arcana.io and 10 Hero Challange are not affiliated with Valve Corporation.</li>
+        </ul>
+
+    </footer>
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>
