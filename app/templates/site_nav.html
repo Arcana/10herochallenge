@@ -22,7 +22,7 @@
         </div>
         <div class="navigation-tools">
             {% if current_user.is_authenticated() %}
-                <a href="{{ url_for('users.user', _id=current_user.id) }}" class="user-profile">Logout {{ current_user.name }}</a>
+                <a href="{{ url_for('users.logout') }}" class="user-profile">Logout {{ current_user.name }}</a>
             {% else %}
                 <a href="{{ url_for('users.login') }}" class="sign-up">Sign in with Steam</a>
             {% endif %}
