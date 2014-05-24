@@ -12,13 +12,13 @@
                 <p>We will give you 10 random heroes every day. Win a game with each of those heroes to acquire
                     imaginary internet points.</p>
             </div>
-            {% if not current_user.is_authenticated %}
+            {% if not current_user.is_authenticated() %}
                 <a class="button" href="{{ url_for('users.login') }}">Sign in with Steam</a>
             {% endif %}
         </div>
     </div>
     <section class="your-heroes">
-        {% if current_user.is_authenticated %}
+        {% if current_user.is_authenticated() %}
             <h2>Your heroes</h2>
         {% else %}
             <h2>These could be your heroes</h2>
