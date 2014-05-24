@@ -1,0 +1,22 @@
+{
+  "name": "10herochallenge",
+  "version": "0.0.0",
+  "authors": [
+    "RJackson <rob@rjackson.me>"
+  ],
+  "main": "run.py",
+  "license": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bourbon": "~4.0.2",
+    "neat": "~1.6.0",
+    "normalize.css": "~3.0.1"
+  }
+}

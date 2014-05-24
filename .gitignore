@@ -6,3 +6,4 @@ local
 .idea/*
 mysql-connector*
 settings.py
+app/static/bower/*
