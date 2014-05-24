@@ -1,14 +1,41 @@
 {% extends "layout.html" %}
+{% from "macros.html" import logo %}
 
 {% block content %}
-    <h1>Hello world</h1>
+    <div class="hero">
+        <div class="hero-inner">
+            <a href="{{ url_for('index') }}" class="hero-logo">{{ logo() }}</a>
 
-    {% if current_user.is_authenticated %}
-        <h2>Your heroes</h2>
-        <ul>
-            <li>TODO</li>
-        </ul>
-    {% else %}
-        <a href="{{ url_for('users/login') }}">Sign in with Steam</a>
-    {% endif %}
+            <div class="hero-copy">
+                <h1>Win games for imaginary internet points.</h1>
+
+                <p>We will give you 10 random heroes every day. Win a game with each of those heroes to acquire
+                    imaginary internet points.</p>
+            </div>
+            {% if not current_user.is_authenticated %}
+                <a class="button" href="{{ url_for('users.login') }}">Sign in with Steam</a>
+            {% endif %}
+        </div>
+    </div>
+    <section class="your-heroes">
+        {% if current_user.is_authenticated %}
+            <h2>Your heroes</h2>
+        {% else %}
+            <h2>These could be your heroes</h2>
+        {% endif %}
+
+        <div class="cards">
+            {% for hero in ["Abaddon", "Meepo", "Chen", "Visage", "Medusa", "Drow Ranger", "Sniper", "Pudge", "Storm Spirit", "Enchantress"] %}
+                <div class="card">
+                    {% if [True, False]|random %}<div class="ribbon-wrapper"><div class="ribbon">DONE</div></div>{% endif %}
+                    <div class="card-image">
+                        <img src="http://media.steampowered.com/apps/dota2/images/heroes/{{ hero.lower().replace(' ', '_') }}_full.png" alt="{{ hero }}">
+                    </div>
+                    <div class="card-header">
+                        {{ hero }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
 {% endblock %}

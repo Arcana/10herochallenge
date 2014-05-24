@@ -1,9 +1,12 @@
+{% from "macros.html" import logo, arcana_logo %}
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <title>{{ title or "10 Hero Challenge" }}</title>
-    <meta name="description" content="{{ meta_description or "Earn imaginary internet points for winning the video games." }}">
+    <meta name="description"
+          content="{{ meta_description or "Earn imaginary internet points for winning the video games." }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     {%- block style %}
@@ -12,36 +15,67 @@
 </head>
 
 <body>
-    {% include "site_nav.html" %}
+{% include "site_nav.html" %}
 
-    <main>
-        {% for category, message in get_flashed_messages(with_categories=true) %}
-            <div class="flash alert {{ "alert-" + category if category != "message" else "warning"}}">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                {{ message }}
-            </div>
-        {% endfor %}
+<main>
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+        <div class="flash alert {{ "alert-" + category if category != "message" else "warning" }}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+    {% endfor %}
 
-        {% block content %}
-        {% endblock %}
-        <div id="ad_large_bottom" class="text-center">
-            {% if current_user.allows_ads() %}
+    {% block content %}
+    {% endblock %}
+    <section id="ad_large_bottom" class="advertisement">
+        {% if current_user.allows_ads() %}
             <hr>
             <div>Wow, an advertisement!</div>
-            {% endif %}
-        </div>
-    </main>
-    <hr>
-    <footer>
+        {% endif %}
+    </section>
+</main>
 
-        <ul class="list-inline pull-left">
-            <li>© <a href="http://arcana.io">Arcana.io</a></li>
-            <li>Powered by <a href="http://steampowered.com">Steam</a>.</li>
-            <li>"Dota" is a registered trademark of <a href="http://valvesoftware.com">Valve Corporation</a>.  Arcana.io and 10 Hero Challange are not affiliated with Valve Corporation.</li>
+<footer class="footer">
+    <div class="footer-logo">
+        <a href="{{ url_for('index') }}">{{ logo() }}</a>
+        <a href="http://arcana.io">{{ arcana_logo() }}</a>
+    </div>
+    <div class="footer-links">
+        <ul>
+            <li><h3>10 Hero Challenge</h3></li>
+            <li><a href="TODO">About</a></li>
+            <li><a href="TODO">Contact us</a></li>
+            <li><a href="http://github.com/Arcana/10herochallenge">Contribute via GitHub</a></li>
+            <li><a href="://github.com/Arcana/10herochallenge/issues">Report a problem</a></li>
         </ul>
+        <ul>
+            <li><h3>Middle column</h3></li>
+            <li><a href="TODO">Content</a></li>
+            <li><a href="TODO">Content</a></li>
+            <li><a href="TODO">Content</a></li>
+            <li><a href="TODO">Content</a></li>
+        </ul>
+        <ul>
+            <li><h3>Other Arcana.io Projects</h3></li>
+            <li><a href="http://dotabank.com">Dotabank</a></li>
+            <li><a href="http://pubstomp.hu">Pubstomp.hu</a></li>
+            <li><a href="http://shouldibuyacompendium.com">Should I buy a compendium?</a></li>
+            <li><a href="http://doigetthepreviousrewards.com">Do I get the previous rewards?</a></li>
+        </ul>
+    </div>
 
-    </footer>
-    {% block scripts %}
-    {% endblock %}
+    <hr>
+
+    <p>© <a href="http://arcana.io">Arcana.io</a></p>
+    <p>Powered by <a href="http://steampowered.com">Steam</a>.</p>
+    <p>Dota is a registered trademark of <a href="http://valvesoftware.com">Valve Corporation</a>.</p>
+</footer>
+
+
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='bower/jquery/dist/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/_nav.js') }}"></script>
+{% endblock %}
 </body>
 </html>

@@ -2,3 +2,20 @@
 @import "../bower/bourbon/dist/bourbon"
 @import "bitters/bitters"
 @import "../bower/neat/app/assets/stylesheets/neat"
+
+// General layout
+@import nav
+@import hero
+@import cards
+@import footer
+
+// Sections
+section
+  @include padding(2em, auto, 2em, auto)
+
+  &.advertisement
+    @include outer-container
+
+  &.your-heroes
+    @include outer-container
+
