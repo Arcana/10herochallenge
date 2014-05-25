@@ -1,13 +1,52 @@
 from flask import render_template
-from app import app, db
+from app import app, db, mem_cache
+from app.models import Challenge, ChallengeHero, Hero
 from flask.ext.login import current_user
+from random import sample
+
+
+@app.before_request
+def update_heroes():
+
+    hero_info_updated = mem_cache.get('hero_info_updated')
+    if not hero_info_updated:
+        Hero.update_heroes_from_webapi()
+        mem_cache.set('hero_info_updated', True, timeout=60*60)  # 1 hour timeout
 
 
 # Routes
 @app.route('/')
 def index():
-    return render_template("index.html")
+    current_challenge = None
+    random_heroes = None
 
+    # If authed, get or create challenge
+    if current_user.is_authenticated():
+        current_challenge = current_user.get_active_challenge()
+
+        if not current_challenge:
+            current_challenge = Challenge(current_user.id)
+            db.session.add(current_challenge)
+            db.session.commit()
+    # If not authed, get 10 random hiroshimas
+    else:
+        random_heroes = []
+        for hero in sample(Hero.query.all(), app.config['CHALLENGE_HERO_COUNT']):
+            mock_challenge_hero = ChallengeHero()
+            mock_challenge_hero.hero = hero
+            random_heroes.append(mock_challenge_hero)
+
+    return render_template(
+        "index.html",
+        current_challenge=current_challenge,
+        random_heroes=random_heroes
+    )
+
+
+@app.route('/new_challenge')
+def new_challenge():
+    pass
+    # Do stuff
 
 @app.errorhandler(401)  # Unauthorized
 @app.errorhandler(403)  # Forbidden

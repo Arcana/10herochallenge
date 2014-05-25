@@ -1,6 +1,22 @@
 {% extends "layout.html" %}
 {% from "macros.html" import logo %}
 
+{% macro hero_cards(heroes) %}
+    <div class="cards">
+        {% for challenge_hero in heroes %}
+            <div class="card">
+                {% if challenge_hero.completed %}<div class="ribbon-wrapper"><div class="ribbon">COMPLETED</div></div>{% endif %}
+                <div class="card-image">
+                    <img src="{{ challenge_hero.hero.image }}" alt="{{ challenge_hero.hero.localized_name }}">
+                </div>
+                <div class="card-header">
+                    {{ challenge_hero.hero.localized_name }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endmacro %}
+
 {% block content %}
     <div class="hero">
         <div class="hero-inner">
@@ -20,22 +36,10 @@
     <section class="your-heroes">
         {% if current_user.is_authenticated() %}
             <h2>Your heroes</h2>
+            {{ hero_cards(current_challenge.get_active_heroes()) }}
         {% else %}
             <h2>These could be your heroes</h2>
+            {{ hero_cards(random_heroes) }}
         {% endif %}
-
-        <div class="cards">
-            {% for hero in ["Abaddon", "Meepo", "Chen", "Visage", "Medusa", "Drow Ranger", "Sniper", "Pudge", "Storm Spirit", "Enchantress"] %}
-                <div class="card">
-                    {% if [True, False]|random %}<div class="ribbon-wrapper"><div class="ribbon">DONE</div></div>{% endif %}
-                    <div class="card-image">
-                        <img src="http://media.steampowered.com/apps/dota2/images/heroes/{{ hero.lower().replace(' ', '_') }}_full.png" alt="{{ hero }}">
-                    </div>
-                    <div class="card-header">
-                        {{ hero }}
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
     </section>
 {% endblock %}

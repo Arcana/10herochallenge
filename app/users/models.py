@@ -1,6 +1,7 @@
 from app import db, steam
+from app.models import Challenge
 from flask.ext.login import AnonymousUserMixin
-import datetime
+from datetime import datetime
 
 
 class AnonymousUser(AnonymousUserMixin):
@@ -17,12 +18,13 @@ class User(db.Model):
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(64), unique=False, nullable=True)
     enabled = db.Column(db.Boolean, default=True, nullable=False)
-    first_seen = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    last_seen = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    first_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     admin = db.Column(db.Boolean, default=False)
     show_ads = db.Column(db.Boolean, default=True)
 
     logs_resolved = db.relationship('Log', backref='resolved_by_user', lazy='dynamic', cascade='all')
+    challenges = db.relationship('Challenge', backref='user', lazy='dynamic', cascade="all")
 
     # Set default order by
     __mapper_args__ = {
@@ -56,7 +58,7 @@ class User(db.Model):
 
     def update_last_seen(self):
         # Called every page load for current_user
-        self.last_seen = datetime.datetime.utcnow()
+        self.last_seen = datetime.utcnow()
         db.session.add(self)
         db.session.commit()
 
@@ -78,3 +80,6 @@ class User(db.Model):
     @property
     def steam_id(self):
         return self.id + User.ACCOUNT_ID_TO_STEAM_ID_CORRECTION
+
+    def get_active_challenge(self):
+        return self.challenges.filter(Challenge.start_at <= datetime.utcnow(), Challenge.end_at >= datetime.utcnow()).first()
