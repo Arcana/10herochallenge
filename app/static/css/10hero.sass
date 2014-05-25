@@ -11,11 +11,8 @@
 
 // Sections
 section
-  @include padding(2em, auto, 2em, auto)
+  @include outer-container
+  @include padding(1em inherit)
 
   &.advertisement
-    @include outer-container
-
-  &.your-heroes
-    @include outer-container
-
+    border-top: $base-border-radius dashed $base-border-color
