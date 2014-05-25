@@ -38,6 +38,13 @@
       border-top-right-radius: $base-border-radius;
     }
   }
+  &.hero-complete {
+    .card-image {
+      img {
+        @include filter(grayscale(100%))
+      }
+    }
+  }
 
   .ribbon-wrapper {
     $ribbon-size: 85px;
@@ -47,6 +54,7 @@
     position: absolute;
     top: -1px;
     right: -1px;
+    z-index: 1;
 
     .ribbon {
       font-size: .8em;

@@ -4,8 +4,11 @@
 {% macro hero_cards(heroes) %}
     <div class="cards">
         {% for challenge_hero in heroes %}
-            <div class="card">
-                {% if challenge_hero.completed %}<div class="ribbon-wrapper"><div class="ribbon">COMPLETED</div></div>{% endif %}
+            <div class="card {% if challenge_hero.completed %}hero-complete{% endif %}">
+                {% if challenge_hero.completed %}
+                    <div class="ribbon-wrapper">
+                        <div class="ribbon">DONE</div>
+                    </div>{% endif %}
                 <div class="card-image">
                     <img src="{{ challenge_hero.hero.image }}" alt="{{ challenge_hero.hero.localized_name }}">
                 </div>
@@ -37,6 +40,18 @@
         {% if current_user.is_authenticated() %}
             <h2>Your heroes</h2>
             {{ hero_cards(current_challenge.get_active_heroes()) }}
+
+            <div class="progress-bar-indication">
+            {% set pct_done = current_challenge.get_completed_heroes()|length / current_challenge.get_active_heroes()|length * 100 %}
+              <span class="meter" style="width: {{ pct_done }}%">
+                <p>{{ pct_done|int }}%</p>
+              </span>
+            </div>
+
+            <p class="footnote">
+                Challenge generated at {{ current_challenge.created_at|datetime_to_datestring }}.
+                Start time {{ current_challenge.start_at|datetime_to_datestring }}.
+                End time {{ current_challenge.end_at|datetime_to_datestring }}.</p>
         {% else %}
             <h2>These could be your heroes</h2>
             {{ hero_cards(random_heroes) }}

@@ -87,19 +87,19 @@ class Challenge(db.Model):
 
     def get_completed_heroes(self):
         """ Returns heroes which have been completed. """
-        return (h for h in self.heroes if h.completed)
+        return [h for h in self.heroes if h.completed]
 
     def get_outstanding_heroes(self):
         """ Returns heroes which are yet to be completed. """
-        return (h for h in self.heroes if h.active and not h.completed)
+        return [h for h in self.heroes if h.active and not h.completed]
 
     def get_rerolled_heroes(self):
         """ Returns heroes which were selected via a re-roll """
-        return (h for h in self.heroes if h.rerolled)
+        return [h for h in self.heroes if h.rerolled]
 
     def get_active_heroes(self):
         """ Returns the full-list of this challenge's active heroes (complete and incomplete) """
-        return (h for h in self.heroes if h.active)
+        return [h for h in self.heroes if h.active]
 
 
 class ChallengeHero(db.Model):
