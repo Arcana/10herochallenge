@@ -76,9 +76,12 @@ def user(_id):
         flash("User {} not found.".format(_id), "danger")
         return redirect(request.referrer or url_for("index"))
 
+    challenges = _user.challenges
+
     return render_template("users/user.html",
                            title=u"{} - 10 Hero Challenge".format(_user.name),
-                           user=_user)
+                           user=_user,
+                           challenges=challenges)
 
 
 @mod.route("/<int:_id>/update_name")

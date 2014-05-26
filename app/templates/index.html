@@ -49,9 +49,9 @@
             </div>
 
             <p class="footnote">
-                Challenge generated at {{ current_challenge.created_at|datetime_to_datestring }}.
-                Start time {{ current_challenge.start_at|datetime_to_datestring }}.
-                End time {{ current_challenge.end_at|datetime_to_datestring }}.</p>
+                Challenge generated at {{ current_challenge.created_at|datetime_to_datestring }} UTC.
+                Start time {{ current_challenge.start_at|datetime_to_datestring }} UTC.
+                End time {{ current_challenge.end_at|datetime_to_datestring }} UTC.</p>
         {% else %}
             <h2>These could be your heroes</h2>
             {{ hero_cards(random_heroes) }}

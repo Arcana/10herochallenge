@@ -18,6 +18,11 @@ section
   &.advertisement
     border-top: $base-border-radius dashed $base-border-color
 
+  &.an-challenger
+    border-bottom: $base-border-radius dashed $base-border-color
+    &:last-of-type
+      border-bottom: 0
+
 p.footnote
   font-size: $base-font-size * 0.75
   color: darken($base-font-color, 50%)

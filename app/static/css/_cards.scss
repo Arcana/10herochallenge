@@ -22,8 +22,15 @@
   position: relative;
 
   @include media($large-screen) {
-    @include span-columns(2.4);
-    @include omega(5n);
+    &.small {
+      @include span-columns(1.2);
+      @include omega(10n);
+    }
+
+    &:not(.small) {
+      @include span-columns(2.4);
+      @include omega(5n);
+    }
   }
 
   .card-image {
@@ -81,40 +88,27 @@
     padding: $base-line-height/3 $gutter/2;
   }
 
-  .card-copy {
-    padding: $base-line-height/2 $gutter/2;
-    font-size: .9em;
-    line-height: 1.5em;
-  }
+  &.small {
+    .ribbon-wrapper {
+      $ribbon-size: 47px;
+      @include size($ribbon-size);
 
-  .card-stats {
-    padding: $base-line-height/2 $gutter/2;
-    overflow: auto;
-
-    ul li {
-      display: inline;
-      color: $card-stats-color;
-      font-weight: 800;
-      font-size: 1.2em;
-      float: left;
-      border-right: 1px solid transparentize($base-font-color, .8);
-      line-height: 1.1em;
-      padding: 0 .7em 0 .7em;
-
-      &:first-child {
-        padding-left: 0;
+      .ribbon {
+        font-size: .6em;
+        font-weight: 400;
+        left: 3px;
+        top: 3px;
+        line-height: 18px;
+        width: 60px;
       }
+    }
 
-      &:last-child {
-        border-right: 0;
-      }
-
-      span {
-        color: $base-font-color;
-        font-size: .7em;
-        display: block;
-        font-weight: normal;
-      }
+    .card-header {
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -o-text-overflow: ellipsis;
     }
   }
 

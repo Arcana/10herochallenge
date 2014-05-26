@@ -59,6 +59,11 @@ class Challenge(db.Model):
 
     heroes = db.relationship('ChallengeHero', backref='challenge', lazy='joined')
 
+    # Set default order by
+    __mapper_args__ = {
+        "order_by": [db.desc(start_at)]
+    }
+
     def __init__(self, user_id, start_at=None, end_at=None, generate_heroes=True):
         if not start_at:
             # Default to midnight

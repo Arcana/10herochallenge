@@ -11,4 +11,42 @@
             <dd>{{ user.last_seen|datetime_to_datestring }} UTC</dd>
         </dl>
     </section>
+
+    <section class="challenges">
+        <h2>{{ user.name }}'s challenge history</h2>
+
+
+        {% for challenge in challenges %}
+            <section class="an-challenger">
+                <div class="cards">
+                    {% for challenge_hero in challenge.get_active_heroes() %}
+                        <div class="card small {% if challenge_hero.completed %}hero-complete{% endif %}">
+                            {% if challenge_hero.completed %}
+                                <div class="ribbon-wrapper">
+                                    <div class="ribbon">DONE</div>
+                                </div>{% endif %}
+                            <div class="card-image">
+                                <img src="{{ challenge_hero.hero.image }}" alt="{{ challenge_hero.hero.localized_name }}">
+                            </div>
+                            <div class="card-header">
+                                {{ challenge_hero.hero.localized_name }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="progress-bar-indication">
+                {% set pct_done = challenge.get_completed_heroes()|length / challenge.get_active_heroes()|length * 100 %}
+                  <span class="meter" style="width: {{ pct_done }}%">
+                    <p>{{ pct_done|int }}%</p>
+                  </span>
+                </div>
+
+                <p class="footnote">
+                    Challenge generated at {{ challenge.created_at|datetime_to_datestring }} UTC.
+                    Start time {{ challenge.start_at|datetime_to_datestring }} UTC.
+                    End time {{ challenge.end_at|datetime_to_datestring }} UTC.</p>
+            </section>
+        {% endfor %}
+    </section>
 {% endblock %}
