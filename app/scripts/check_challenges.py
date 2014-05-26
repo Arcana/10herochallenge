@@ -87,7 +87,7 @@ def check_challenges():
 
     gevent.wait(jobs)
 
-    for hero in ChallengeHero.query.filter(ChallengeHero in [ch for ch in [j.value for j in jobs]]).all():
+    for hero in ChallengeHero.query.filter(ChallengeHero.id.in_([ch for j in jobs for ch in (j.value or [])])).all():
         hero.completed = True
         db.session.add(hero)
     db.session.commit()
