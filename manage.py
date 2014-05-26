@@ -10,7 +10,6 @@ Takes the following commands:
 
 from app import app as application, db
 from flask.ext.script import Manager
-from app.scripts.check_challenges import check_challenges as _check_challenges
 
 manager = Manager(application)
 
@@ -21,6 +20,7 @@ def init_db():
 
 @manager.command
 def check_challenges():
+    from app.scripts.check_challenges import check_challenges as _check_challenges
     _check_challenges()
 
 
