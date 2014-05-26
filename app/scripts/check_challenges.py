@@ -27,6 +27,10 @@ def handle_challenge(challenge):
     matches = steam.api.interface("IDOTA2Match_570").GetMatchHistory(**webapi_params).get("result")
     return_challenge_heroes = []
 
+    if not matches.get("matches"):
+        print "No matches for found user {}".format(challenge.user_id)
+        continue
+
     print "Found {} matches for {}".format(len(matches.get("matches")), challenge.user_id)
     for match in matches.get("matches"):
         # Check match was played within the challenge dates
