@@ -14,6 +14,8 @@ from datetime import datetime, timedelta
 from calendar import timegm as to_timestamp
 
 import gevent
+from gevent import monkey
+monkey.patch_all()  # Make things good.
 
 
 def handle_challenge(challenge):
@@ -89,3 +91,4 @@ def check_challenges():
         hero.completed = True
         db.session.add(hero)
     db.session.commit()
+    print "Saved challenge hero data"
