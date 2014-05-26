@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% from "macros.html" import logo %}
+
+{% block content %}
+    <section class="leaderboard">
+        <h1>Global leaderboard</h1>
+        <h2>Heroes completed in past 30 days</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>User</th>
+                <th>Hereoes completed</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for won_count, winner in winners %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><a href="{{ url_for('users.user', _id=winner.id) }}">{{ winner.name }}</a></td>
+                <td>{{ won_count }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

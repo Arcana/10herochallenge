@@ -1,13 +1,14 @@
 from flask import render_template
 from app import app, db, mem_cache
 from app.models import Challenge, ChallengeHero, Hero
+from app.users.models import User
 from flask.ext.login import current_user
 from random import sample
 
+from datetime import datetime, timedelta
 
 @app.before_request
 def update_heroes():
-
     hero_info_updated = mem_cache.get('hero_info_updated')
     if not hero_info_updated:
         Hero.update_heroes_from_webapi()
@@ -43,10 +44,24 @@ def index():
     )
 
 
-@app.route('/new_challenge')
-def new_challenge():
-    pass
-    # Do stuff
+@app.route('/leaderboard')
+def leaderboard():
+    """ Global leader board.  Going by ChallengeHeroes completed in last 30 days for now. """
+
+    winners = db.session.query(db.func.count(ChallengeHero), User).\
+        filter(ChallengeHero.completed == True,
+               Challenge.start_at >= (datetime.now() - timedelta(days=30))).\
+        join(ChallengeHero.challenge).\
+        join(Challenge.user).\
+        order_by(db.func.count(ChallengeHero).desc()).\
+        group_by(Challenge.user_id).\
+        all()
+
+    return render_template(
+        "leaderboard.html",
+        winners=winners
+    )
+
 
 @app.errorhandler(401)  # Unauthorized
 @app.errorhandler(403)  # Forbidden
