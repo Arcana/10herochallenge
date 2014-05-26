@@ -29,7 +29,7 @@ def handle_challenge(challenge):
 
     if not matches.get("matches"):
         print "No matches for found user {}".format(challenge.user_id)
-        continue
+        return return_challenge_heroes
 
     print "Found {} matches for {}".format(len(matches.get("matches")), challenge.user_id)
     for match in matches.get("matches"):
