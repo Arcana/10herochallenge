@@ -1,7 +1,9 @@
 from app import db, fs_cache, steam
+from app.helpers import datetime_to_week
 from flask import current_app
 from datetime import datetime
 from random import sample
+
 
 class Log(db.Model):
     """ Model used for logging to database. """
@@ -66,12 +68,20 @@ class Challenge(db.Model):
 
     def __init__(self, user_id, start_at=None, end_at=None, generate_heroes=True):
         if not start_at:
-            # Default to midnight
-            start_at = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+            # Default to start of current ISO week
+            start_at = datetime_to_week(datetime.utcnow()).monday()
 
         if not end_at:
-            # Default to just before midnight
-            end_at = datetime.utcnow().replace(hour=23, minute=59, second=59, microsecond=999)
+            # Default to end of current ISO week
+            _end_at_date = datetime_to_week(datetime.utcnow()).sunday()
+            end_at = datetime(
+                year=_end_at_date.year,
+                month=_end_at_date.month,
+                day=_end_at_date.day,
+                hour=23,
+                minute=59,
+                second=59
+            )
 
         self.user_id = user_id
         self.start_at = start_at

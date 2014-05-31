@@ -17,6 +17,7 @@ argparse==1.2.1
 blinker==1.3
 gevent==1.0.1
 greenlet==0.4.2
+isoweek==1.3.0
 itsdangerous==0.24
 pylibmc==1.3.0
 python-openid==2.2.5
