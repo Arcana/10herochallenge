@@ -39,6 +39,8 @@
     <section class="your-heroes">
         {% if current_user.is_authenticated() %}
             <h2>Your heroes</h2>
+            <p class="timeleft">Challenge expires <abbr title="{{ current_challenge.end_at|datetime_to_datestring }}" class="timestamp" data-timestamp="{{ current_challenge.end_at.isoformat() }}">{{ current_challenge.end_at.isoformat() }}</abbr>.</p>
+
             {{ hero_cards(current_challenge.get_active_heroes()) }}
 
             <div class="progress-bar-indication">
@@ -57,4 +59,9 @@
             {{ hero_cards(random_heroes) }}
         {% endif %}
     </section>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/_timeleft.js') }}"></script>
 {% endblock %}

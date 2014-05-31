@@ -30,7 +30,7 @@ if app.debug:
 
 
 # Set up jinja2 filters.
-from filters import escape_every_character,\
+from app.filters import escape_every_character,\
     timestamp_to_datestring,\
     datetime_to_datestring,\
     seconds_to_time
