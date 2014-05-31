@@ -16,8 +16,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 oid = OpenID(app)
 
-if app.config['SENTRY_ENABLED']:
-    sentry = Sentry(app)
+sentry = Sentry(app)
 
 # Setup steamodd
 steam.api.key.set(app.config['STEAM_API_KEY'])
@@ -39,6 +38,10 @@ app.add_template_filter(timestamp_to_datestring)
 app.add_template_filter(datetime_to_datestring)
 app.add_template_filter(seconds_to_time)
 
+
+# Load current app version into globals
+from helpers import current_version
+app.config['VERSION'] = current_version()
 
 # Load views
 import views

@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     {%- block style %}
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/10hero.css') }}"
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/10hero.css') }}?{{ config['VERSION'] }}"
     {%- endblock style %}
 </head>
 
@@ -66,17 +66,19 @@
     <p>Powered by <a href="http://steampowered.com">Steam</a>.</p>
 
     <p>Dota is a registered trademark of <a href="http://valvesoftware.com">Valve Corporation</a>.</p>
+
+    <p class="version"><a href="https://github.com/Arcana/10herochallenge/commit/{{ config['VERSION'] }}">{{ config['VERSION'] }}</a></p>
 </footer>
 
 
 
 {% block scripts %}
     {% if config['DEBUG'] %}
-        <script src="{{ url_for('static', filename='bower/jquery/dist/jquery.js') }}"></script>
-        <script src="{{ url_for('static', filename='bower/momentjs/moment.js') }}"></script>
+        <script src="{{ url_for('static', filename='bower/jquery/dist/jquery.js') }}?{{ config['VERSION'] }}"></script>
+        <script src="{{ url_for('static', filename='bower/momentjs/moment.js') }}?{{ config['VERSION'] }}"></script>
     {% else %}
-        <script src="{{ url_for('static', filename='bower/jquery/dist/jquery.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='bower/momentjs/min/moment.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='bower/jquery/dist/jquery.min.js') }}?{{ config['VERSION'] }}"></script>
+        <script src="{{ url_for('static', filename='bower/momentjs/min/moment.min.js') }}?{{ config['VERSION'] }}"></script>
     {% endif %}
     <script src="{{ url_for('static', filename='js/_nav.js') }}"></script>
     <script>
