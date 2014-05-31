@@ -1,11 +1,13 @@
-from flask import render_template
+from flask import render_template, send_file
 from app import app, db, mem_cache
 from app.models import Challenge, ChallengeHero, Hero
 from app.users.models import User
 from flask.ext.login import current_user
 from random import sample
-
 from datetime import datetime, timedelta
+import os
+import requests
+
 
 @app.before_request
 def update_heroes():
@@ -61,6 +63,32 @@ def leaderboard():
         "leaderboard.html",
         winners=winners
     )
+
+
+@app.route('/static/img/heroes/<hero_name>.png')
+def hero_image(hero_name):
+    """ Attempts to serve a hero's image from the filesystem, downloading and saving the file if possible.
+    The file should be served by nginx, but will fall back to this code if nginx throws 404. """
+    local_path = os.path.join(
+        app.static_folder,
+        "img/heroes/{}.png".format(hero_name)
+    )
+    volvo_path = "http://media.steampowered.com/apps/dota2/images/heroes/{}_full.png".format(hero_name)
+
+    # If we already have on disk, serve it.
+    if os.path.exists(local_path):
+        return send_file(local_path)
+
+    # Otherwise fetch, save to disk, then serve it.
+    with open(local_path, 'w') as f:
+        req = requests.get(volvo_path, stream=True)
+        if req.ok:
+            for block in req.iter_content(1024):
+                f.write(block)
+        return send_file(local_path)
+
+    # If all of the above fails, throw 404.
+    abort(404)
 
 
 @app.errorhandler(401)  # Unauthorized

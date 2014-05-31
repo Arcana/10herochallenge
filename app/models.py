@@ -1,6 +1,6 @@
 from app import db, fs_cache, steam
 from app.helpers import datetime_to_week
-from flask import current_app
+from flask import current_app, url_for
 from datetime import datetime
 from random import sample
 
@@ -99,7 +99,6 @@ class Challenge(db.Model):
             challenge_hero = ChallengeHero(self.id, chosen_one.id)
             db.session.add(challenge_hero)  # Add to session but don't commit - that'll be handled elsewhere.
 
-
     def get_completed_heroes(self):
         """ Returns heroes which have been completed. """
         return [h for h in self.heroes if h.completed]
@@ -154,7 +153,7 @@ class Hero(db.Model):
 
     @property
     def image(self):
-        return "http://media.steampowered.com/apps/dota2/images/heroes/{}_full.png".format(self.name.replace('npc_dota_hero_', ''))
+        return url_for('hero_image', hero_name=self.name.replace('npc_dota_hero_', ''))
 
     @classmethod
     @fs_cache.cached(timeout=60 * 60, key_prefix="heroes")
