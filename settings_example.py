@@ -28,16 +28,9 @@ CACHE_FS = {
 
 ENCRYPTION_KEY = ""  # 16, 24, or 32 bytes long  # TODO
 
-# mail server settings
-# Mail only allowed to & from tehcnical@dotabank.com
-MAIL_SERVER = ''  # TODO
-MAIL_PORT = 25  # TODO
-MAIL_USERNAME = ""  # TODO
-MAIL_PASSWORD = ""  # TODO
-MAIL_FROM = ""  # TODO
-
-# administrator list (for E500 email alerts)
-ADMINS = []  # TODO
+# Sentry info
+SENTRY_ENABLED = False
+SENTRY_DSN = ""
 
 
 # General vars
