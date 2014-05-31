@@ -30,7 +30,9 @@
     {% endblock %}
     <section id="ad_large_bottom" class="advertisement">
         {% if current_user.allows_ads() %}
-            <div>Wow, an advertisement!</div>
+            <a href="#ad_large_bottom">
+                <img src="http://placekitten.com/728/90" alt="Toppest advertisement, 10/10 keks" />
+            </a>
         {% endif %}
     </section>
 </main>
@@ -49,14 +51,7 @@
             <li><a href="http://github.com/Arcana/10herochallenge/issues">Report a problem</a></li>
         </ul>
         <ul>
-            <li><h3>Middle column</h3></li>
-            <li><a href="TODO">Content</a></li>
-            <li><a href="TODO">Content</a></li>
-            <li><a href="TODO">Content</a></li>
-            <li><a href="TODO">Content</a></li>
-        </ul>
-        <ul>
-            <li><h3>Other Arcana.io Projects</h3></li>
+            <li><h3>Arcana.io</h3></li>
             <li><a href="http://dotabank.com">Dotabank</a></li>
             <li><a href="http://pubstomp.hu">Pubstomp.hu</a></li>
             <li><a href="http://shouldibuyacompendium.com">Should I buy a compendium?</a></li>

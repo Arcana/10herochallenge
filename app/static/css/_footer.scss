@@ -28,28 +28,32 @@
   .footer-links {
     @include clearfix;
     margin-bottom: $base-line-height;
-
-    @include media($medium-screen) {
-      @include shift(3);
-    }
   }
 
   ul {
     margin-bottom: $base-line-height*2;
 
     @include media($medium-screen) {
-      @include span-columns(3);
-      @include omega(3n);
+      @include span-columns(6);
+      @include omega(2n);
       @include clearfix;
+
+      &:nth-child(odd) {
+        li {
+          text-align: right;
+        }
+      }
+
+      &:nth-child(even) {
+        li {
+          text-align: left;
+        }
+      }
     }
   }
 
   li {
     text-align: center;
-
-    @include media($medium-screen) {
-      text-align: left;
-    }
   }
 
   li a {
