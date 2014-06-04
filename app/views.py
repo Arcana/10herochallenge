@@ -12,7 +12,7 @@ import requests
 @app.before_request
 def update_heroes():
     _updated_key = 'hero_info_updated'
-    _lock_key = 'hero_info_update_lock
+    _lock_key = 'hero_info_update_lock'
     # If the last-updated key has expired, and the lock is not set (the lock will be set if another request
     # beat this one to the job)
     if not mem_cache.get(_updated_key) and not mem_cache.get(_lock_key):
