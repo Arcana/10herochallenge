@@ -11,10 +11,22 @@ import requests
 
 @app.before_request
 def update_heroes():
-    hero_info_updated = mem_cache.get('hero_info_updated')
-    if not hero_info_updated:
+    _updated_key = 'hero_info_updated'
+    _lock_key = 'hero_info_update_lock
+    # If the last-updated key has expired, and the lock is not set (the lock will be set if another request
+    # beat this one to the job)
+    if not mem_cache.get(_updated_key) and not mem_cache.get(_lock_key):
+        # Set lock before doing expensive task.
+        mem_cache.set(_lock_key, True, timeout=60*60)  # Timeout in case the app crashes before it releases the lock.
+
+        # Update hero data        
         Hero.update_heroes_from_webapi()
-        mem_cache.set('hero_info_updated', True, timeout=60*60)  # 1 hour timeout
+        
+        # Set key to say we've updated the data.  We'll re-run this process when this key expires
+        mem_cache.set(_updated_key, True, timeout=60*60)  # 1 hour timeout
+        
+        # Release the lock
+        mem_cache.delete(_lock_key)
 
 
 # Routes
