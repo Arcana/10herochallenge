@@ -1,4 +1,4 @@
-from flask import render_template, send_file
+from flask import render_template, send_file, abort
 from app import app, db, mem_cache
 from app.models import Challenge, ChallengeHero, Hero
 from app.users.models import User
@@ -97,7 +97,7 @@ def hero_image(hero_name):
         if req.ok:
             for block in req.iter_content(1024):
                 f.write(block)
-        return send_file(local_path)
+            return send_file(local_path)
 
     # If all of the above fails, throw 404.
     abort(404)
