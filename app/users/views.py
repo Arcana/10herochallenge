@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, flash, redirect, request, url_for, current_app
 
-from app import oid, steam, db, login_manager, mem_cache
+from app import app, oid, steam, db, login_manager, mem_cache
 from models import User, AnonymousUser
 from forms import SettingsForm
 from flask.ext.login import login_user, logout_user, current_user, login_required
@@ -23,13 +23,13 @@ def load_user(user_id):
 
         if not mem_cache.get(_update_name_updated_key) and not mem_cache.get(_update_name_lock_key):
             # Set lock befoer doing slow task
-            mem_cache.set(_update_name_lock_key, True, timeout=60*60)
+            mem_cache.set(_update_name_lock_key, True, timeout=app.config['UPDATE_USER_NAME_TIMEOUT'])
 
             # Update user's name
             _user.update_steam_name()
 
             # Set key to say we've updated the name.  We'll re-run this when this key expires
-            mem_cache.set(_update_name_updated_key, True, timeout=60*60)
+            mem_cache.set(_update_name_updated_key, True, timeout=app.config['UPDATE_USER_NAME_TIMEOUT'])
 
             # Release lock
             mem_cache.delete(_update_name_lock_key)

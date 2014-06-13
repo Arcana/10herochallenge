@@ -17,13 +17,13 @@ def update_heroes():
     # beat this one to the job)
     if not mem_cache.get(_updated_key) and not mem_cache.get(_lock_key):
         # Set lock before doing expensive task.
-        mem_cache.set(_lock_key, True, timeout=60*60)  # Timeout in case the app crashes before it releases the lock.
+        mem_cache.set(_lock_key, True, timeout=app.config['UPDATE_HEROES_TIMEOUT'])  # Timeout in case the app crashes before it releases the lock.
 
         # Update hero data        
         Hero.update_heroes_from_webapi()
         
         # Set key to say we've updated the data.  We'll re-run this process when this key expires
-        mem_cache.set(_updated_key, True, timeout=60*60)  # 1 hour timeout
+        mem_cache.set(_updated_key, True, timeout=app.config['UPDATE_HEROES_TIMEOUT'])  # 1 hour timeout
         
         # Release the lock
         mem_cache.delete(_lock_key)

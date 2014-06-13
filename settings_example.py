@@ -31,6 +31,10 @@ ENCRYPTION_KEY = ""  # 16, 24, or 32 bytes long  # TODO
 # Sentry info
 SENTRY_DSN = ""
 
+# Timeouts
+UPDATE_HEROES_TIMEOUT = 60 * 60 * 6  # 6 hours
+UPDATE_USER_NAME_TIMEOUT = 60 * 60  # 1 hour
+
 
 # General vars
 CONTACT_EMAIL = ""  # TODO
